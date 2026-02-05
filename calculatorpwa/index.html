@@ -21,9 +21,9 @@
     <script>
         // 1. Inject Manifest
         const manifest = {
-            "name": "Árkalkulátor",
-            "short_name": "ÁrKalk",
-            "start_url": "http://localhost:8000/",
+            "name": "Arkalkulator",
+            "short_name": "ArKalk",
+            "start_url": "https://kreki3d.github.io/calculatorpwa/",
             "display": "standalone",
             "background_color": "#f1f5f9",
             "theme_color": "#0f172a",
@@ -37,7 +37,7 @@
             ]
         };
         const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-        const manifestUrl = URL.createObjectURL(manifestBlob);
+        const manifestUrl = UR	L.createObjectURL(manifestBlob);
         const link = document.createElement('link');
         link.rel = 'manifest';
         link.href = manifestUrl;
