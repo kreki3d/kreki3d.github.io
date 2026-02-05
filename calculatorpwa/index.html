@@ -37,7 +37,7 @@
             ]
         };
         const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-        const manifestUrl = UR	L.createObjectURL(manifestBlob);
+        const manifestUrl = URL.createObjectURL(manifestBlob);
         const link = document.createElement('link');
         link.rel = 'manifest';
         link.href = manifestUrl;
