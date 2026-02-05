@@ -45,7 +45,16 @@
 
         // 2. Register Service Worker (Basic Offline Support)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
+            const swCode = `
+                self.addEventListener('install', (e) => self.skipWaiting());
+                self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+                self.addEventListener('fetch', (e) => {
+                    e.respondWith(fetch(e.request).catch(() => new Response('Offline Mode')));
+                });
+            `;
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            const swUrl = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swUrl)
                 .then(() => console.log('SW Registered'))
                 .catch(err => console.error('SW Error:', err));
         }
