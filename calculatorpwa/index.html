@@ -236,14 +236,23 @@
                 let totalResource = 0;
                 let totalTime = 0;
                 let totalCount = 0;
+                let totalBasePrice = 0;
 
                 rows.forEach(row => {
-                    totalResource += parseFloat(row.resource) || 0;
-                    totalTime += parseFloat(row.time) || 0;
-                    totalCount += parseFloat(row.count) || 1; // Default to 1 if left empty
+                    const r = parseFloat(row.resource) || 0;
+                    const t = parseFloat(row.time) || 0;
+                    const c = parseFloat(row.count) || 1; // Default to 1 if left empty
+
+                    totalResource += r;
+                    totalTime += t;
+                    totalCount += c;
+
+                    // Calculate the price for this specific row
+                    const rowPrice = ((r * APP_CONFIG.rates.pricePerGram) + (t * APP_CONFIG.rates.pricePerHour)) / c;
+                    totalBasePrice += rowPrice;
                 });
 
-                const basePrice = ((totalResource * APP_CONFIG.rates.pricePerGram) + (totalTime * APP_CONFIG.rates.pricePerHour)) / (totalCount || 1);
+                const basePrice = totalBasePrice;
                 const discountedResell = roundUp(basePrice * APP_CONFIG.rates.discountMultiplier);
                 const range1 = roundUp(discountedResell * APP_CONFIG.rates.range1Multiplier);
                 const range2 = roundUp(discountedResell * APP_CONFIG.rates.range2Multiplier);
